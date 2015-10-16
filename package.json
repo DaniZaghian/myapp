@@ -1,0 +1,24 @@
+{
+  "name": "myapp",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^4.1.11"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaniZaghian/myapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DaniZaghian/myapp/issues"
+  },
+  "homepage": "https://github.com/DaniZaghian/myapp#readme",
+  "description": ""
+}
