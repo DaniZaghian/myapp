@@ -1,1 +1,59 @@
-<h1> hello </h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Feels Journal</title>
+
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- VENDOR SCRIPTS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- APPLICATION SCRIPTS -->
+    <script src="base.js"></script>
+
+    <link rel="icon" type="image/png" href="grumpy.jpg">
+    
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+
+          <div class="jumbotron">
+
+           <h1>Feels Journal</h1>
+
+           </div>
+        </div>
+
+        <div class="col-md-6 col-md-offset-3">
+        <h2>How grumpy are you?</h2>
+          <form name="postForm">
+            <div class="form-group">
+              <input type="text" class="form-control" id="inputPost" placeholder="I'm feeling especially grumpy.">
+              <button type="submit" id="postButton" class="btn btn-info btn-lg">Post</button>
+            </div>
+
+        <br/>
+
+        <ul class="list-group"></ul>
+
+        <div id="counter"></div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="grumpy">
+    <img src= "http://25.media.tumblr.com/c305253411c1a12e8cfef56f47acc07b/tumblr_mfluc4QVEx1r9uzkco1_500.png">
+    </div>
+
+  </body>
+</html>

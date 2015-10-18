@@ -1,0 +1,50 @@
+
+h1 {
+  margin-top: 150px;
+  margin-bottom: 150px;
+  text-align: center;
+}
+
+h2 {
+	padding-bottom: 20px;
+	color: white;
+	text-shadow: 2px 3px 1px rgba(112,112,112,1);
+}
+
+#postButton{
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+.row {
+	text-align: center;
+
+}
+
+.list-group {
+	margin-top: 20px;
+}
+
+.jumbotron {
+	background: url("http://mattbyrd.com/wp-content/uploads/2013/11/grumpy-cat.jpg");
+	background-size: cover;
+	color: white;
+	text-shadow: 2px 3px 1px rgba(112,112,112,1);
+}
+
+#grumpy {
+	float: left;
+}
+
+body {
+	background-color: lightgrey;
+	text-align:center;
+}
+
+li {
+	text-align: left;
+}
+
+li span {
+	float: right;
+}
