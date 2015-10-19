@@ -22,10 +22,10 @@ $(document).ready(function () {
 	        	postText: toPost 
 	        };
 	        //post request to add new post
-	        $.post("/api/posts", postData, function(response){
+	        $.post("/api/posts", postData, function(resPost) {
 		      // clear new post form
-		      console.log(response);
-		      var postString = makeHTMLString(toPost);
+		      console.log(resPost);
+		      var postString = makeHTMLString(resPost);
 		      $("ul").prepend(postString);
 		      // reset the form 
 		      $("form")[0].reset();
@@ -60,15 +60,15 @@ $(document).ready(function () {
 	function deletePost(context) {
 	  console.log('context in deletePost: ', context);
 	  // context is the button that was clicked
-	  var postId = $(context).data().id;
+	  var postId = $(context).attr('data');
 	  $.ajax({
 	    url: '/api/posts/' + postId,
 	    type: 'DELETE'
 	  });
 	}
 
-	function makeHTMLString(toPost){
-	  return '<li class="list-group-item">' + toPost + '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></li>';
+	function makeHTMLString(postObj){
+	  return '<li class="list-group-item" data="'+ postObj._id +'">' + postObj.postText + '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></li>';
 	}
 
     //draggable gumpy cat

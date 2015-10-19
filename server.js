@@ -38,10 +38,28 @@ app.post("/api/posts", function (req, res){
    
     db.Post.create(newPost, function(err, post){
 	    if (err) { return console.log("create error: " + err); }
-	    console.log("created ", post.postText);
+	    console.log(post);
 	    res.json(post);
 	});
 });
+
+
+// api route to delete a post
+// /api/posts/id1 --> req.params.id == id1
+// /api/posts/iasflke --> req.params.id ==iasflke
+app.delete("/api/posts/:id", function (req, res){
+  // set the value of the id
+  var targetId = req.params.id;
+
+  console.log(targetId);
+
+  db.Post.findOneAndRemove({_id:targetId}, function(err, deletedPost){
+    if (err) { return console.log("delete error: " + err); }
+    console.log(deletedPost + " removed");
+    res.send(deletedPost);
+   });
+});
+
 
 //listen at port
 app.listen(3000, function (){
