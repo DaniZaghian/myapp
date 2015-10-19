@@ -10,24 +10,38 @@ $(document).ready(function () {
 	//grab the value from the input box
     $('form').on('submit', function(e) {
     	e.preventDefault();
-        var toPost = $('#inputPost').val();
+   		var toPost = $('#inputPost').val();
+
 
         if (toPost) {
-
 	        //on submit, append posted item to UL
-	        $('ul').prepend('<li class="list-group-item">' + toPost + '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
+	        //$('ul').prepend('<li class="list-group-item">' + toPost + '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
 
 	        //clear text in form once submitted
-	        $('#inputPost').val('');
+	        var postData = {
+	        	postText: toPost 
+	        };
+	        //post request to add new post
+	        $.post("/api/posts", postData, function(response){
+		      // clear new post form
+		      console.log(response);
+		      var postString = makeHTMLString(toPost);
+		      $("ul").prepend(postString);
+		      // reset the form 
+		      $("form")[0].reset();
+		      // give focus back to the post name input
+		      $("form").focus();
+		    });
 
 	        //increase post count and append to count div
 			countPosts = countPosts + 1;
 			$("#counter").text(" ").append("Posts: " + countPosts);
 
 			var backgroundsIndex = Math.floor(Math.random() * (backgrounds.length));
-
+			//change background colors every time you submit a post
 			$('body').css({"background-color": backgrounds[backgroundsIndex]});
 
+			//put up an alert if the input is empty and user tries to submit
 		} else {
 			$('ul').prepend('<div class="alert alert-warning" class="close" data-dismiss="alert"> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong> Oh no!</strong> You forgot to write something...</div>');
 		}
@@ -35,11 +49,27 @@ $(document).ready(function () {
     });
 
     //when you click the element, remove from list
-    $(document).on('click', 'li', function () {
+    $(document).on('click', 'li', function (e) {
         $(this).remove();
+        deletePost(this);
         countPosts = countPosts - 1;
 		$("#counter").text(" ").append("Posts: " + countPosts);
     });
+
+    //delete post from the dom
+	function deletePost(context) {
+	  console.log('context in deletePost: ', context);
+	  // context is the button that was clicked
+	  var postId = $(context).data().id;
+	  $.ajax({
+	    url: '/api/posts/' + postId,
+	    type: 'DELETE'
+	  });
+	}
+
+	function makeHTMLString(toPost){
+	  return '<li class="list-group-item">' + toPost + '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></li>';
+	}
 
     //draggable gumpy cat
     $('#grumpy').draggable();
