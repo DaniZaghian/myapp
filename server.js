@@ -19,6 +19,10 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+app.get('/', function (req, res) {
+  res.render('index');
+});
+
 // api route to get all posts (sanity check)
 app.get("/api/posts", function (req, res){
  // get posts from db
@@ -27,8 +31,17 @@ app.get("/api/posts", function (req, res){
   });
 });
 
-app.get('/', function (req, res) {
-  res.render('index');
+app.get('/post', function (req, res) {
+  res.render('post');
+});
+
+// api route to get all posts (sanity check)
+app.get("/api/post/:id", function (req, res){
+	var targetId = req.params.id;
+ 	// get post from db
+ 	db.Post.findById(targetId, function(err, post){
+    res.json(post);
+  });
 });
 
 // api route to create new post

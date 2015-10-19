@@ -12,12 +12,8 @@ $(document).ready(function () {
     	e.preventDefault();
    		var toPost = $('#inputPost').val();
 
-
         if (toPost) {
 	        //on submit, append posted item to UL
-	        //$('ul').prepend('<li class="list-group-item">' + toPost + '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></li>');
-
-	        //clear text in form once submitted
 	        var postData = {
 	        	postText: toPost 
 	        };
@@ -33,27 +29,31 @@ $(document).ready(function () {
 		      $("form").focus();
 		    });
 
-	        //increase post count and append to count div
-			countPosts = countPosts + 1;
-			$("#counter").text(" ").append("Posts: " + countPosts);
+	 		upPostCounter();
+			changeBackground();
 
-			var backgroundsIndex = Math.floor(Math.random() * (backgrounds.length));
-			//change background colors every time you submit a post
-			$('body').css({"background-color": backgrounds[backgroundsIndex]});
 
 			//put up an alert if the input is empty and user tries to submit
 		} else {
-			$('ul').prepend('<div class="alert alert-warning" class="close" data-dismiss="alert"> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong> Oh no!</strong> You forgot to write something...</div>');
+			emptyAlert();
 		}
 	   
     });
 
     //when you click the element, remove from list
-    $(document).on('click', 'li', function (e) {
-        $(this).remove();
-        deletePost(this);
+    $(document).on('click', 'li .glyphicon-remove', function (e) {
+    	var postLi = $(this).closest('li');
+    	deletePost(postLi);
+        postLi.remove();
         countPosts = countPosts - 1;
 		$("#counter").text(" ").append("Posts: " + countPosts);
+    });
+
+    $(document).on('click', 'li .post-text', function (e) {
+    	var postLi = $(this).closest('li');
+    	var postId = postLi.attr('data');
+    	var url = "/post?id=" + postId;
+    	window.location = url;
     });
 
     //delete post from the dom
@@ -68,7 +68,44 @@ $(document).ready(function () {
 	}
 
 	function makeHTMLString(postObj){
-	  return '<li class="list-group-item" data="'+ postObj._id +'">' + postObj.postText + '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></li>';
+	  return '<li class="list-group-item" data="'+ postObj._id +'"><div class="post-text">' + postObj.postText + '</div><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></li>';
+	}
+
+	function changeBackground(){
+		var backgroundsIndex = Math.floor(Math.random() * (backgrounds.length));
+		//change background colors every time you submit a post
+		$('body').css({"background-color": backgrounds[backgroundsIndex]});
+	}
+
+	function upPostCounter() {
+		//increase post count and append to count div
+		countPosts = countPosts + 1;
+		$("#counter").text(" ").append("Posts: " + countPosts);
+	}
+
+	function emptyAlert() {
+		$('ul').prepend('<div class="alert alert-warning" class="close" data-dismiss="alert"> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong> Oh no!</strong> You forgot to write something...</div>');
+	}
+
+	function readPosts() {
+		$.ajax({
+	    url: '/api/posts',
+	    type: 'GET',
+	    complete: function(resPosts) {
+	    	var posts = resPosts.responseJSON;
+	    	console.log(posts);
+	    	posts.forEach(function(post){
+	    		console.log(post);
+	    		displayPost(post);
+	    	});
+	    }
+	  });
+	}
+	readPosts();
+
+	function displayPost(resPost) {
+		var postString = makeHTMLString(resPost);
+		$("ul").prepend(postString);
 	}
 
     //draggable gumpy cat
